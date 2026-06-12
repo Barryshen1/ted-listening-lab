@@ -1,0 +1,666 @@
+:root {
+  color-scheme: light;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f4f2ec;
+  color: #1f2428;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.appShell {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) 1fr;
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(202, 225, 217, 0.8), transparent 30%),
+    linear-gradient(315deg, rgba(251, 218, 126, 0.46), transparent 30%),
+    #f4f2ec;
+}
+
+.libraryPane {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+  padding: 22px;
+  border-right: 1px solid rgba(38, 45, 50, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.brandBlock,
+.topBar,
+.topActions,
+.sidebarActions,
+.transport,
+.speedControl,
+.speedChips,
+.toggles,
+.panelHeader,
+.rowMeta,
+.rowActions,
+.modalHeader,
+.modalActions {
+  display: flex;
+  align-items: center;
+}
+
+.brandBlock {
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  color: #fff;
+  background: #1f6f61;
+  border-radius: 8px;
+  box-shadow: 0 18px 28px rgba(31, 111, 97, 0.2);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 1.08rem;
+  line-height: 1.2;
+}
+
+h2 {
+  margin-top: 4px;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  line-height: 1.12;
+}
+
+h3 {
+  margin-top: 3px;
+  font-size: 1.04rem;
+}
+
+.brandBlock p,
+.topBar p,
+.talkCard span,
+.noticeText,
+.attribution,
+.translationText,
+.maskedText {
+  color: #66716e;
+}
+
+.eyebrow,
+.talkTopic {
+  color: #b2472d;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid rgba(38, 45, 50, 0.16);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.searchBox input,
+.importGrid input,
+.wideLabel textarea {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #1f2428;
+}
+
+.sidebarActions {
+  gap: 10px;
+  margin: 14px 0 18px;
+}
+
+.secondaryButton,
+.primaryButton,
+.linkButton,
+.pillToggle,
+.iconToggle,
+.speedChips button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  border: 1px solid rgba(38, 45, 50, 0.14);
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.secondaryButton,
+.linkButton,
+.pillToggle,
+.iconToggle,
+.speedChips button {
+  color: #263239;
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.secondaryButton,
+.linkButton {
+  padding: 0 12px;
+}
+
+.primaryButton {
+  padding: 0 15px;
+  color: #fff;
+  background: #b2472d;
+}
+
+.dangerButton {
+  color: #9f2f22;
+}
+
+.iconToggle {
+  width: 40px;
+}
+
+.secondaryButton:hover,
+.linkButton:hover,
+.pillToggle:hover,
+.iconToggle:hover,
+.speedChips button:hover,
+.roundButton:hover,
+.miniIcon:hover,
+.rowPlay:hover {
+  transform: translateY(-1px);
+  border-color: rgba(31, 111, 97, 0.36);
+}
+
+.talkList {
+  display: grid;
+  gap: 10px;
+}
+
+.dataStatus {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: -4px 0 16px;
+  padding: 10px;
+  color: #52605d;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  border: 1px dashed rgba(31, 111, 97, 0.3);
+  border-radius: 8px;
+  background: rgba(244, 251, 247, 0.76);
+}
+
+.talkCard {
+  display: grid;
+  gap: 7px;
+  width: 100%;
+  padding: 14px;
+  text-align: left;
+  border: 1px solid rgba(38, 45, 50, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.74);
+  cursor: pointer;
+}
+
+.talkCard strong {
+  line-height: 1.22;
+}
+
+.talkCard.selected {
+  border-color: rgba(178, 71, 45, 0.5);
+  background: #fff8f3;
+  box-shadow: inset 3px 0 0 #b2472d;
+}
+
+.talkMeta {
+  font-size: 0.82rem;
+}
+
+.workspace {
+  min-width: 0;
+  padding: 24px;
+}
+
+.topBar {
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.topActions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.playerBand {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.1fr) minmax(280px, 0.72fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.playerFrame,
+.controlPanel,
+.sentencePanel,
+.importModal {
+  border: 1px solid rgba(38, 45, 50, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 22px 50px rgba(63, 68, 58, 0.11);
+}
+
+.playerFrame {
+  overflow: hidden;
+}
+
+.playerMount {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background:
+    linear-gradient(120deg, rgba(31, 111, 97, 0.12), rgba(178, 71, 45, 0.12)),
+    #1f2428;
+}
+
+.playerMount iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.controlPanel {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: 18px;
+}
+
+.sentenceCounter {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(38, 45, 50, 0.1);
+}
+
+.sentenceCounter span,
+.sentenceCounter small {
+  color: #66716e;
+  font-size: 0.86rem;
+}
+
+.sentenceCounter strong {
+  grid-row: span 2;
+  align-self: center;
+  font-size: 1.25rem;
+}
+
+.transport {
+  gap: 10px;
+}
+
+.roundButton,
+.primaryRound,
+.miniIcon,
+.rowPlay {
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(38, 45, 50, 0.14);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.roundButton,
+.miniIcon,
+.rowPlay {
+  color: #263239;
+  background: #fff;
+}
+
+.roundButton {
+  width: 42px;
+  height: 42px;
+}
+
+.primaryRound {
+  width: 52px;
+  height: 52px;
+  color: #fff;
+  background: #1f6f61;
+  box-shadow: 0 18px 30px rgba(31, 111, 97, 0.22);
+}
+
+.speedControl {
+  display: grid;
+  grid-template-columns: auto 56px 1fr;
+  gap: 10px;
+  align-items: center;
+  color: #3a4448;
+}
+
+.speedControl input {
+  accent-color: #1f6f61;
+}
+
+.speedChips,
+.toggles {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.speedChips button {
+  min-height: 32px;
+  padding: 0 10px;
+  font-size: 0.86rem;
+}
+
+.speedChips .selectedChip,
+.pillToggle.active,
+.iconToggle.active {
+  color: #fff;
+  border-color: #1f6f61;
+  background: #1f6f61;
+}
+
+.pillToggle {
+  min-height: 34px;
+  padding: 0 10px;
+  font-size: 0.9rem;
+}
+
+.noticeText {
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.sentencePanel {
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.panelHeader {
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.attribution {
+  max-width: 540px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.sentences {
+  display: grid;
+  gap: 10px;
+}
+
+.sentenceRow {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 12px;
+  align-items: start;
+  padding: 14px;
+  border: 1px solid rgba(38, 45, 50, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.sentenceRow.active {
+  border-color: rgba(31, 111, 97, 0.46);
+  background: #f4fbf7;
+  box-shadow: inset 3px 0 0 #1f6f61;
+}
+
+.rowPlay {
+  width: 38px;
+  height: 38px;
+}
+
+.rowBody {
+  min-width: 0;
+}
+
+.rowMeta {
+  gap: 10px;
+  margin-bottom: 8px;
+  color: #66716e;
+  font-size: 0.8rem;
+}
+
+.sentenceText {
+  color: #1f2428;
+  font-size: 1rem;
+  line-height: 1.58;
+}
+
+.translationText,
+.maskedText {
+  margin-top: 8px;
+  font-size: 0.94rem;
+  line-height: 1.52;
+}
+
+.maskedText {
+  display: inline-block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(102, 113, 110, 0.12),
+    rgba(102, 113, 110, 0.12) 8px,
+    rgba(102, 113, 110, 0.2) 8px,
+    rgba(102, 113, 110, 0.2) 16px
+  );
+}
+
+.rowActions {
+  gap: 8px;
+}
+
+.miniIcon {
+  width: 36px;
+  height: 36px;
+  color: #b2472d;
+}
+
+.modalLayer {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(31, 36, 40, 0.36);
+  z-index: 20;
+}
+
+.importModal {
+  width: min(920px, 100%);
+  max-height: min(880px, 94vh);
+  overflow: auto;
+  padding: 20px;
+}
+
+.modalHeader {
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.importGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.importGrid label,
+.wideLabel {
+  display: grid;
+  gap: 7px;
+  color: #3a4448;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.importGrid input,
+.wideLabel textarea {
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid rgba(38, 45, 50, 0.16);
+  border-radius: 8px;
+  background: #fff;
+  font-weight: 500;
+}
+
+.wideLabel {
+  margin-top: 12px;
+}
+
+.jsonDrop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 14px;
+  color: #263239;
+  border: 1px dashed rgba(31, 111, 97, 0.38);
+  border-radius: 8px;
+  background: #f4fbf7;
+  cursor: pointer;
+}
+
+.jsonDrop span {
+  display: grid;
+  gap: 3px;
+  font-weight: 760;
+}
+
+.jsonDrop small {
+  color: #66716e;
+  font-weight: 500;
+}
+
+.jsonDrop input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.wideLabel textarea {
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.modalActions {
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.errorText {
+  margin-top: 12px;
+  color: #b2472d;
+  font-weight: 700;
+}
+
+@media (max-width: 980px) {
+  .appShell {
+    grid-template-columns: 1fr;
+  }
+
+  .libraryPane {
+    position: relative;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid rgba(38, 45, 50, 0.12);
+  }
+
+  .talkList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .playerBand {
+    grid-template-columns: 1fr;
+  }
+
+  .topBar,
+  .panelHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .attribution {
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .workspace,
+  .libraryPane {
+    padding: 16px;
+  }
+
+  .talkList,
+  .importGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sentenceRow {
+    grid-template-columns: 38px 1fr;
+  }
+
+  .rowActions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+
+  .topActions,
+  .modalActions {
+    justify-content: flex-start;
+  }
+}
