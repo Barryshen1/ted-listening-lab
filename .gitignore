@@ -7,3 +7,6 @@ dist
 *.tsbuildinfo
 public/data/catalog.json
 public/data/generated
+ted-personal-catalog.json
+ted-personal-catalog-*.json
+build-catalog.log

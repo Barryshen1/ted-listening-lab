@@ -90,6 +90,20 @@ function parseTimestamp(value: string) {
   return 0;
 }
 
+function normalizeSegments(segments: Segment[]) {
+  if (segments.length === 0) return segments;
+  return segments.map((segment, index, all) => {
+    if (segment.end > segment.start) return segment;
+    const next = all[index + 1];
+    const end = next ? Math.max(next.start, segment.start + 0.5) : segment.start + 4;
+    return { ...segment, end };
+  });
+}
+
+function withNormalizedSegments<T extends { segments: Segment[] }>(talk: T): T {
+  return { ...talk, segments: normalizeSegments(talk.segments) };
+}
+
 function mergeCuesIntoSentences(cues: Segment[]) {
   const sentences: Segment[] = [];
   let current: Segment | null = null;
@@ -130,7 +144,7 @@ function parseVtt(input: string): Segment[] {
     const timeIndex = lines.findIndex((line) => line.includes("-->"));
     if (timeIndex === -1) return [];
 
-    const [startRaw, endRaw] = lines[timeIndex].split("-->");
+    const [startRaw, endRaw] = lines[timeIndex].split("-->").map((part) => part.trim());
     const text = lines
       .slice(timeIndex + 1)
       .join(" ")
@@ -250,10 +264,18 @@ export function App() {
 
   const playerHostRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<YTPlayer | null>(null);
+  const playbackRef = useRef({ index: 0, segment: seedTalks[0].segments[0] });
 
-  const talks = useMemo(() => [...seedTalks, ...customTalks], [customTalks]);
+  const talks = useMemo(
+    () => [...seedTalks, ...customTalks].map(withNormalizedSegments),
+    [customTalks],
+  );
   const selectedTalk = talks.find((talk) => talk.id === selectedTalkId) || talks[0];
   const selectedSegment = selectedTalk.segments[selectedIndex] || selectedTalk.segments[0];
+
+  useEffect(() => {
+    playbackRef.current = { index: selectedIndex, segment: selectedSegment };
+  }, [selectedIndex, selectedSegment]);
 
   const filteredTalks = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -351,7 +373,8 @@ export function App() {
     const timer = window.setInterval(() => {
       const player = playerRef.current;
       const playablePlayer = getPlayablePlayer(player);
-      if (!playerReady || !playablePlayer || !selectedSegment) return;
+      const playback = playbackRef.current;
+      if (!playerReady || !playablePlayer || !playback.segment) return;
 
       const time = playablePlayer.getCurrentTime();
       setCurrentTime(time);
@@ -359,17 +382,22 @@ export function App() {
       const activeIndex = selectedTalk.segments.findIndex(
         (segment) => time >= segment.start && time < segment.end,
       );
-      if (activeIndex >= 0 && activeIndex !== selectedIndex && !favoritesOnly) {
+      if (activeIndex >= 0 && activeIndex !== playback.index && !favoritesOnly) {
+        playbackRef.current = {
+          index: activeIndex,
+          segment: selectedTalk.segments[activeIndex],
+        };
         setSelectedIndex(activeIndex);
       }
 
-      if (time >= selectedSegment.end - 0.08) {
+      if (time >= playback.segment.end - 0.08) {
         if (loopCurrent) {
-          playablePlayer.seekTo(selectedSegment.start, true);
+          playablePlayer.seekTo(playback.segment.start, true);
           playablePlayer.playVideo();
-        } else if (autoAdvance && selectedIndex < selectedTalk.segments.length - 1) {
-          const nextIndex = selectedIndex + 1;
+        } else if (autoAdvance && playback.index < selectedTalk.segments.length - 1) {
+          const nextIndex = playback.index + 1;
           const next = selectedTalk.segments[nextIndex];
+          playbackRef.current = { index: nextIndex, segment: next };
           setSelectedIndex(nextIndex);
           playablePlayer.seekTo(next.start, true);
           playablePlayer.playVideo();
@@ -395,6 +423,7 @@ export function App() {
     if (!segment) return;
     const player = getPlayablePlayer(playerRef.current);
     if (!player) return;
+    playbackRef.current = { index, segment };
     setSelectedIndex(index);
     player.seekTo(segment.start, true);
     player.setPlaybackRate(speed);

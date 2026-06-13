@@ -121,7 +121,7 @@ function parseVtt(input) {
         .filter(Boolean);
       const timeIndex = lines.findIndex((line) => line.includes("-->"));
       if (timeIndex === -1) return [];
-      const [startRaw, endRaw] = lines[timeIndex].split("-->");
+      const [startRaw, endRaw] = lines[timeIndex].split("-->").map((part) => part.trim());
       const text = lines
         .slice(timeIndex + 1)
         .join(" ")
